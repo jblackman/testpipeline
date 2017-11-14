@@ -1,0 +1,10 @@
+platform: linux
+image_resource:
+  type: docker-image
+  source: { repository: "corvyx/i-neda-golang", tag: 1.9 }
+inputs:
+- name: testpipeline
+run:
+  dir: testpipeline
+  path: go
+  args: [ test ]

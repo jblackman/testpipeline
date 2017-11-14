@@ -1,0 +1,22 @@
+resources:
+- name: testpipeline
+  type: git
+  source:
+    uri: https://github.com/jblacman/testpipeline
+    branch: master
+
+jobs:
+- name: unit_test
+  plan:
+  - get: testpipeline
+    trigger: true
+  - task: unit_test
+    file: testpipeline/ci/tasks/unit_test.yml
+
+- name: compile
+  plan:
+  - get: testpipeline
+    trigger: true
+    passed: [ unit_test ]
+  - task: compile
+    file: testpipeline/ci/tasks/compile.yml
