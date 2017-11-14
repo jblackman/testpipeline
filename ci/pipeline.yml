@@ -2,7 +2,8 @@ resources:
 - name: testpipeline
   type: git
   source:
-    uri: https://github.com/jblacman/testpipeline
+    #uri: git@github.com:jblackman/testpipeline
+    uri: https://github.com/jblackman/testpipeline.git
     branch: master
 
 jobs:
