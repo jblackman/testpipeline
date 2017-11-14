@@ -37,5 +37,5 @@ jobs:
   - put: demo-image
     params:
       build: artifact
-      dockerfile: artifact/ci/Dockerfile
+      dockerfile: artifact/Dockerfile
       tag_as_latest: true
