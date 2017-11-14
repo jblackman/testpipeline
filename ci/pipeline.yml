@@ -2,9 +2,15 @@ resources:
 - name: testpipeline
   type: git
   source:
-    #uri: git@github.com:jblackman/testpipeline
-    uri: https://github.com/jblackman/testpipeline.git
+    uri: git@github.com:jblackman/testpipeline
+    #uri: https://github.com/jblackman/testpipeline.git
     branch: master
+
+- name: demo-image
+  type: docker-image
+  source:
+    repository: "br-dev-tote01:5000/joedemo"
+    insecure_registries: [ "br-dev-tote01:5000" ]
 
 jobs:
 - name: unit_test
@@ -21,3 +27,16 @@ jobs:
     passed: [ unit_test ]
   - task: compile
     file: testpipeline/ci/tasks/compile.yml
+
+- name: deploy
+  plan:
+  - get: testpipeline
+    trigger: true
+    passed: [ compile ]
+  - task: compile
+    file: testpipeline/ci/tasks/compile.yml
+  - put: demo-image
+    params:
+      build: testpipeline
+      dockerfile: ci/Dockerfile
+      tag: devel
