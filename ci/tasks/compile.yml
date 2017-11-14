@@ -4,7 +4,8 @@ image_resource:
   source: { repository: "corvyx/i-neda-golang", tag: 1.9 }
 inputs:
 - name: testpipeline
+outputs:
+- name: artifact
 run:
   dir: testpipeline
-  path: go
-  args: [ build ]
+  path: ci/scripts/compile.sh
