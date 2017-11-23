@@ -5,6 +5,12 @@ resources:
     uri: https://github.com/jblackman/testpipeline.git
     branch: master
 
+- name: demo-image
+  type: docker-image
+  source:
+    repository: "br-dev-tote01:5000/nealdemo"
+    insecure_registries: [ "br-dev-tote01:5000" ]
+
 jobs:
 - name: unit-test
   plan:
@@ -22,5 +28,10 @@ jobs:
       file: jblackman-git-resource/ci/tasks/compile.yml
       input_mapping:
         testpipeline: jblackman-git-resource
+    - put: demo-image
+      params:
+        build: artifact
+        dockerfile: artifact/Dockerfile
+        tag_as_latest: true
 
 
