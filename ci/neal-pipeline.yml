@@ -1,0 +1,26 @@
+resources:
+- name: jblackman-git-resource
+  type: git
+  source:
+    uri: https://github.com/jblackman/testpipeline.git
+    branch: master
+
+jobs:
+- name: unit-test
+  plan:
+    - get: jblackman-git-resource
+      trigger: true
+    - task: unit-test
+      file: jblackman-git-resource/ci/tasks/neal-unit-test.yml
+
+- name: compile
+  plan:
+    - get: jblackman-git-resource
+      trigger: true
+      passed: [ unit-test ]
+    - task: compile
+      file: jblackman-git-resource/ci/tasks/compile.yml
+      input_mapping:
+        testpipeline: jblackman-git-resource
+
+
